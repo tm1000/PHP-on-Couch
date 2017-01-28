@@ -70,7 +70,7 @@ class CouchException extends Exception
 			$class = __NAMESPACE__ . '\\' . self::$code_subtypes[$response['status_code']];
 			return new $class($response, $method, $url, $parameters);
 		} elseif (isset($response['status_message']) and isset(self::$status_subtypes[$response['status_message']])) {
-			$class = __NAMESPACE__ . '\\' .self::$status_subtypes[$response['status_message']];
+			$class = __NAMESPACE__ . '\\' . self::$status_subtypes[$response['status_message']];
 			return new $class($response, $method, $url, $parameters);
 		} else {
 			return new self($response, $method, $url, $parameters);
@@ -135,7 +135,6 @@ class CouchException extends Exception
 //{
 //	//put your code here
 //}
-
 
 
 
