@@ -126,16 +126,6 @@ class Couch
 	}
 
 	/**
-	 * get the session cookie
-	 *
-	 * @return string cookie
-	 */
-	public function getSessionCookie()
-	{
-		return $this->sessioncookie;
-	}
-
-	/**
 	 * return a part of the data source name
 	 *
 	 * if $part parameter is empty, returns dns array
