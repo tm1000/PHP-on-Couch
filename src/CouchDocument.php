@@ -29,7 +29,7 @@ class CouchDocument
 	/**
 	 * @var stdClass object internal data
 	 */
-	protected $__couch_data = NULL;
+	protected $__couch_data = null;
 
 	/**
 	 * class constructor
@@ -173,7 +173,7 @@ class CouchDocument
 		$key = (string) $key;
 		if (!strlen($key))
 			throw new InvalidArgumentException("No key given");
-		return property_exists($this->__couch_data->fields, $key) ? $this->__couch_data->fields->$key : NULL;
+		return property_exists($this->__couch_data->fields, $key) ? $this->__couch_data->fields->$key : null;
 	}
 
 	/**
@@ -193,7 +193,7 @@ class CouchDocument
 	 *
 	 * @param string $key field name
 	 * @param mixed $value field value
-	 * @return boolean TRUE
+	 * @return boolean true
 	 * @throws InvalidArgumentException
 	 */
 	protected function setOne($key, $value)
@@ -207,9 +207,9 @@ class CouchDocument
 			throw new InvalidArgumentException("Can't set _id field because it's already set");
 		if (substr($key, 0, 1) == '_' AND ! in_array($key, CouchClient::$allowed_underscored_properties))
 			throw new InvalidArgumentException("Property $key can't begin with an underscore");
-		//echo "setting $key to ".print_r($value,TRUE)."<BR>\n";
+		//echo "setting $key to ".print_r($value,true)."<BR>\n";
 		$this->__couch_data->fields->$key = $value;
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -246,11 +246,11 @@ class CouchDocument
 	 *
 	 * @param string|array $key
 	 * @param mixed $value
-	 * @return boolean TRUE
+	 * @return boolean true
 	 * @throws InvalidArgumentException
 	 *
 	 */
-	public function set($key, $value = NULL)
+	public function set($key, $value = null)
 	{
 
 		if (func_num_args() == 1) {
@@ -265,7 +265,7 @@ class CouchDocument
 		if ($this->__couch_data->autocommit) {
 			$this->record();
 		}
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -277,7 +277,7 @@ class CouchDocument
 	 *
 	 * @param string $key name of the property to set
 	 * @param mixed $value property value
-	 * @return boolean TRUE
+	 * @return boolean true
 	 */
 	public function __set($key, $value)
 	{
@@ -311,12 +311,12 @@ class CouchDocument
 		if (!strlen($key))
 			throw new InvalidArgumentException("Can't remove a key without name");
 		if ($key == '_id' OR $key == '_rev')
-			return FALSE;
+			return false;
 		if (isset($this->$key)) {
 			unset($this->__couch_data->fields->$key);
 			$this->record();
 		}
-		return TRUE;
+		return true;
 	}
 
 	/**

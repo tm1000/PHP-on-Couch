@@ -55,12 +55,12 @@ class Couch
 	 * @var resource HTTP server socket
 	 * @see _connect()
 	 */
-	protected $socket = NULL;
+	protected $socket = null;
 
 	/**
 	 * @var boolean tell if curl PHP extension has been detected
 	 */
-	protected $curl = FALSE;
+	protected $curl = false;
 
 	/**
 	 * @var string the session cookie
@@ -82,7 +82,7 @@ class Couch
 			$this->dsn_parsed['port'] = 80;
 		}
 		if (function_exists('curl_init'))
-			$this->curl = TRUE;
+			$this->curl = true;
 	}
 
 	/**
@@ -157,7 +157,7 @@ class Couch
 	 * @return array CouchDB response
 	 * @throws InvalidArgumentException
 	 */
-	public static function parseRawResponse($raw_data, $json_as_array = FALSE)
+	public static function parseRawResponse($raw_data, $json_as_array = false)
 	{
 		if (!strlen($raw_data))
 			throw new InvalidArgumentException("no data to parse");
@@ -188,7 +188,7 @@ class Couch
 	 *
 	 * @return string|false server response on success, false on error
 	 */
-	public function query($method, $url, $parameters = array(), $data = NULL, $content_type = NULL)
+	public function query($method, $url, $parameters = array(), $data = null, $content_type = null)
 	{
 		if ($this->curl)
 			return $this->_curl_query($method, $url, $parameters, $data, $content_type);
@@ -240,7 +240,7 @@ class Couch
 	*
 	* - a couchClient instance to use to make queries inside the callback
 	*
-	* If the callable returns the boolean FALSE , continuous reading stops.
+	* If the callable returns the boolean false , continuous reading stops.
 	*
 	* @param callable $callable PHP function name / callable array ( see http://php.net/is_callable )
 	* @param string $method HTTP method to use (GET, POST, ...)
@@ -262,7 +262,7 @@ class Couch
 		//Send the request to the socket
 		$request = $this->_socket_buildRequest($method, $url, $data, null);
 		if (!$this->_connect())
-			return FALSE;
+			return false;
 		fwrite($this->socket, $request);
 
 		//Read the headers and check that the response is valid
@@ -293,8 +293,8 @@ class Couch
         //For as long as the socket is open, read lines and pass them to the callback
 		$c = clone $this;
 		while ($this->socket && !feof($this->socket)) {
-			$e = NULL;
-			$e2 = NULL;
+			$e = null;
+			$e2 = null;
 			$read = array($this->socket);
 			if (false === ($num_changed_streams = stream_select($read, $e, $e2, 1))) {
 				$this->socket = null;
@@ -302,7 +302,7 @@ class Couch
 				$line = fgets($this->socket);
 				if (strlen(trim($line))) {
 					$break = call_user_func($callable, json_decode($line), $c);
-					if ($break === FALSE) {
+					if ($break === false) {
 						fclose($this->socket);
 					}
 				}
@@ -324,7 +324,7 @@ class Couch
 	 *
 	 * @throws Exception
 	 */
-	public function _socket_query($method, $url, $parameters = array(), $data = NULL, $content_type = NULL)
+	public function _socket_query($method, $url, $parameters = array(), $data = null, $content_type = null)
 	{
 		if (!in_array($method, $this->HTTP_METHODS))
 			throw new Exception("Bad HTTP method: $method");
@@ -334,7 +334,7 @@ class Couch
 
 		$request = $this->_socket_buildRequest($method, $url, $data, $content_type);
 		if (!$this->_connect())
-			return FALSE;
+			return false;
 // 		echo "DEBUG: Request ------------------ \n$request\n";
 		$raw_response = $this->_execute($request);
 		$this->_disconnect();
@@ -489,7 +489,7 @@ class Couch
 		if (!$this->socket) {
 			throw new Exception('Could not open connection to ' . $this->dsn_part('host') . ':' . $this->dsn_part('port') . ': ' . $err_string . ' (' . $err_num . ')');
 		}
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -515,7 +515,7 @@ class Couch
 	protected function _disconnect()
 	{
 		@fclose($this->socket);
-		$this->socket = NULL;
+		$this->socket = null;
 	}
 
 	/*
@@ -580,7 +580,7 @@ class Couch
 	 *
 	 * @throws Exception
 	 */
-	public function _curl_query($method, $url, $parameters = array(), $data = NULL, $content_type = NULL)
+	public function _curl_query($method, $url, $parameters = array(), $data = null, $content_type = null)
 	{
 		if (!in_array($method, $this->HTTP_METHODS))
 			throw new Exception("Bad HTTP method: $method");

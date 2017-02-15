@@ -155,7 +155,7 @@ class CouchClient extends Couch {
      * @throws CouchException
      * @return array
      */
-    protected function _queryAndTest($method, $url, $allowed_status_codes, $parameters = array(), $data = NULL, $content_type = NULL) {
+    protected function _queryAndTest($method, $url, $allowed_status_codes, $parameters = array(), $data = null, $content_type = null) {
         $raw = $this->query($method, $url, $parameters, $data, $content_type);
         $response = $this->parseRawResponse($raw, $this->results_as_array);
         $this->results_as_array = false;
@@ -321,11 +321,11 @@ class CouchClient extends Couch {
     public function databaseExists() {
         try {
             $back = $this->getDatabaseInfos();
-            return TRUE;
+            return true;
         } catch (Exception $e) {
             // if status code = 404 database does not exist
             if ($e->getCode() == 404)
-                return FALSE;
+                return false;
             // we met another exception so we throw it
             throw $e;
         }
@@ -664,7 +664,7 @@ class CouchClient extends Couch {
      * 				If data is an array or an object it's parsed through PHP http_build_query function
      * 				and the content-type of the request is set to "application/x-www-form-urlencoded"
      * 		- "Content-Type" : the http header "Content-Type" to send to the couch server
-     * @return bool|array @see _queryAndTest($method, $url, $allowed_status_codes, $parameters = array(),$data = NULL, $content_type = NULL)
+     * @return bool|array @see _queryAndTest($method, $url, $allowed_status_codes, $parameters = array(),$data = null, $content_type = null)
      */
     public function updateDocFullAPI($ddoc_id, $handler_name, $options = array()) {
         $params = array();
@@ -908,7 +908,7 @@ class CouchClient extends Couch {
      */
     public function resultsToCouchDocuments($results) {
         if (!$results->rows or ! is_array($results->rows))
-            return FALSE;
+            return false;
         $back = array();
         foreach ($results->rows as $row) { // should have $row->key & $row->doc
             if (!$row->key or ! $row->doc)

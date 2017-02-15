@@ -105,7 +105,7 @@ class CouchException extends Exception
 	 * @return array CouchDB response
 	 * @throws InvalidArgumentException
 	 */
-	public static function parseRawResponse($raw_data, $json_as_array = FALSE)
+	public static function parseRawResponse($raw_data, $json_as_array = false)
 	{
 		if (!strlen($raw_data))
 			throw new InvalidArgumentException("no data to parse");
