@@ -1429,4 +1429,65 @@ class CouchClient extends Couch
         return $this->_find('_explain', $selector, $index);
     }
 
+
+    /**
+     * List of replication jobs. Includes replications created via /_replicate endpoint as well as those created from replication documents.
+     * Does not include replications which have completed or have failed to start because replication documents were malformed.
+     * Each job description will include source and target information, replication id, a history of recent event, and a few other things.
+     *
+     * Can be used with the limit() and skip() query parameter.
+     *
+     * @return object Reponse object. Jobs are available through the **jobs** property.
+     * @throws CouchException
+     */
+    public function getSchedulerJobs(){
+        $url = '/_scheduler/jobs';
+        list($method, $viewQuery, $data) = $this->prepareViewQuery();
+        return $this->queryAndValid($method, $url, [200], $viewQuery, $data);
+    }
+
+    /**
+     * List of replication document states. Includes information about all the documents, even in completed and failed states.
+     * For each document it returns the document ID, the database, the replication ID, source and target, and other information.
+     *
+     * Can be used with the limit() and skip() query parameter.
+     *
+     * @param string $replicatorDb Optional parameter. You can specify the replicator database name. The slashes don't have to be escaped
+     * @return object Response object. Get the documents from the **docs** property.
+     * @throws CouchException
+     */
+    public function getSchedulerDocs($replicatorDb = null){
+        $url = '/_scheduler/docs';
+
+        if(!empty($replicatorDb)){
+            $url .= "/$replicatorDb";
+        }
+        list($method, $viewQuery, $data) = $this->prepareViewQuery();
+        return $this->queryAndValid($method, $url, [200], $viewQuery, $data);
+    }
+
+    /**
+     * Get the state of a replication activity.
+     * @param string $replicatorDb The name of the replicator database to get the document from
+     * @param string $docId The document id of the replication to get.
+     * @return object Scheduler document
+     * @throws CouchException
+     */
+    public function getSchedulerDoc($replicatorDb,$docId){
+        if(empty($replicatorDb)){
+            throw new InvalidArgumentException("You must specify the replicator database");
+        }
+        if(empty($docId)){
+            throw new InvalidArgumentException("You must specify a document id.");
+        }
+
+        $url = "/_scheduler/docs/$replicatorDb/" . urlencode($docId);
+        list($method, $viewQuery, $data) = $this->prepareViewQuery();
+        return $this->queryAndValid($method, $url, [200], $viewQuery, $data);
+    }
+
+
+
+
+
 }
