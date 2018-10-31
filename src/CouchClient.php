@@ -1403,7 +1403,7 @@ class CouchClient extends Couch
         ];
 
         //Parameter validation
-        $fieldsToParse = ['fields', 'limit', 'skip','conflicts'];
+        $fieldsToParse = ['fields', 'limit', 'skip'];
         foreach ($fieldsToParse as $field)
             if (isset($this->queryParameters[$field])) {
                 $request[$field] = $this->queryParameters[$field];
@@ -1421,6 +1421,12 @@ class CouchClient extends Couch
 
         if (isset($index) && (is_array($index) || is_string($index)))
             $request['use_index'] = $index;
+
+        if (isset($this->queryParameters['conflicts'])) {
+            $request['conflicts'] = boolval($this->queryParameters['conflicts']);
+            unset($this->queryParameters['conflicts']);
+        }
+
         return $this->queryAndValid($method, $url, [200], [], $request);
     }
 
