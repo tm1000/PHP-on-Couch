@@ -1505,7 +1505,7 @@ EOT;
         $response1 = $this->aclient->asArray()->find(['firstName' => 'John']);
         $this->assertCount(1, $response1);
         $this->assertEquals($response1[0]['age'], 35);
-        $this->assertFalse(isset($response1[0]['firstName']));
+        $this->assertTrue(isset($response1[0]['firstName']));
     }
 
     /**
