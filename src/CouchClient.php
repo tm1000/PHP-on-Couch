@@ -1403,7 +1403,7 @@ class CouchClient extends Couch
         ];
 
         //Parameter validation
-        $fieldsToParse = ['fields', 'limit', 'skip'];
+        $fieldsToParse = ['fields', 'limit', 'skip','conflicts'];
         foreach ($fieldsToParse as $field)
             if (isset($this->queryParameters[$field])) {
                 $request[$field] = $this->queryParameters[$field];
