@@ -1500,7 +1500,7 @@ EOT;
                 'gender' => 'Others'
             ],
         ];
-        $this->aclient->storedoc($docs);
+        $this->aclient->storeDocs($docs);
 
         $response1 = $this->aclient->asArray()->find(['firstName' => 'John']);
         $this->assertCount(1, $response1);
