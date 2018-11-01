@@ -656,11 +656,11 @@ class CouchClient extends Couch
      * store a CouchDB document
      *
      * @param object $doc document to store
+     * @param bool $newEdits Default to true. Id prevents to update a document with a conflicting revision
      * @return object CouchDB document storage response
-     * @throws InvalidArgumentException
      * @throws CouchException
      */
-    public function storeDoc($doc)
+    public function storeDoc($doc, $newEdits = true)
     {
         if (!is_object($doc))
             throw new InvalidArgumentException('Document should be an object');
@@ -675,8 +675,11 @@ class CouchClient extends Couch
         if (!empty($doc->_id)) {
             $method = 'PUT';
             $url .= '/' . urlencode($doc->_id);
+            unset($doc->_id);
         }
-        return $this->queryAndValid($method, $url, [200, 201, 202], [], $doc);
+
+        $params = ["new_edits" => $newEdits ? "true" : "false"];
+        return $this->queryAndValid($method, $url, [200, 201, 202], $params, $doc);
     }
 
     /**
