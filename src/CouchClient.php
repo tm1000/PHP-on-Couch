@@ -675,7 +675,6 @@ class CouchClient extends Couch
         if (!empty($doc->_id)) {
             $method = 'PUT';
             $url .= '/' . urlencode($doc->_id);
-            unset($doc->_id);
         }
 
         $params = ["new_edits" => $newEdits ? "true" : "false"];
