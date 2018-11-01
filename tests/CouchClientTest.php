@@ -1426,7 +1426,7 @@ EOT;
         $this->assertCount(0, $firstResponse);
 
         $this->aclient->storeDoc((object)['a' => 1]);
-        $this->aclient->new_edits(false)->storeDoc((object)['a' => 2, '_rev' => "1-23202479633c2b380f79507a776743d5"]);
+        $this->aclient->storeDocs([(object)['a' => 2, '_rev' => "1-23202479633c2b380f79507a776743d5"]], false);
 
         //Validate that we have a conflict
         $response = $this->aclient->conflicts(true)->find($query);
