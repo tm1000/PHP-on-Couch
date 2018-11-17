@@ -299,7 +299,7 @@ class Couch
      */
     public function continuousQuery($callable, $method, $url, $parameters = [], $data = null, $caller = null)
     {
-        $callerVal = isEmpty($caller) ? $this : $caller;
+        $callerVal = empty($caller) ? $this : $caller;
         return $this->getAdapter()->continuousQuery($callable, $method, $url, $parameters, $data, $callerVal);
     }
 
