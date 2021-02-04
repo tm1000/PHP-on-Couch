@@ -105,15 +105,14 @@ class CouchHttpAdapterSocket extends AbstractCouchHttpAdapter implements CouchHt
             $url = $this->dsnPart('path').$url;
         }
         $req = "$method $url HTTP/1.0\r\nHost: ".$this->dsnPart('host')."\r\n";
-        if ($this->sessioncookie) {
-            $req .= "Cookie: ".$this->sessioncookie."\r\n";
-        } else {
-            if ($this->dsnPart('user') && $this->dsnPart('pass')) {
-                $req .= 'Authorization: Basic '.base64_encode(
-                        $this->dsnPart('user').':'.
-                        $this->dsnPart('pass')
-                    )."\r\n";
-            }
+
+        switch ($this->getAuthMode()) {
+            case PHPONCOUCH_AUTH_BASIC:
+                $req .= "Authorization: Basic ".base64_encode($this->getAuthToken())."\r\n";
+                break;
+            case PHPONCOUCH_AUTH_COOKIE:
+                $req .= "Cookie: ".$this->getAuthToken()."\r\n";
+                break;
         }
         $req .= "Accept: application/json,text/html,text/plain,*/*\r\n";
 
