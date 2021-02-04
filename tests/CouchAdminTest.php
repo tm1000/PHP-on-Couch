@@ -355,7 +355,7 @@ class CouchAdminTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($ok->ok, true);
         $ok = $adm->getAllUsers(true);
         $this->assertInternalType('array', $ok);
-        $this->assertCount(3, $ok);
+        $this->assertCount(4, $ok);
 
         //Invalid parameters
         $this->expectException(InvalidArgumentException::class);
@@ -371,7 +371,7 @@ class CouchAdminTest extends PHPUnit_Framework_TestCase
 
         $result2 = $adm->getAllUsers();
         $this->assertInternalType('array', $result2);
-        $this->assertCount(3, $result2);
+        $this->assertCount(4, $result2);
     }
 
     /**
