@@ -154,8 +154,8 @@ class CouchClient extends Couch
         if (array_key_exists('cookie_auth', $options) && $options['cookie_auth']) {
             $parts = parse_url($dsn);
 
-            $username = $this->getUsername($parts, $options);
-            $password = $this->getPassword($parts, $options);
+            $username = $this->_getUsername($parts, $options);
+            $password = $this->_getPassword($parts, $options);
 
             $dsn = $parts['scheme'].'://'.$parts['host'];
             $dsn .= array_key_exists('port', $parts) ? ':'.$parts['port'] : '';
@@ -187,7 +187,7 @@ class CouchClient extends Couch
         parent::__construct($dsn, $options);
     }
 
-    private function getUsername($dsn_parts, $options)
+    private function _getUsername($dsn_parts, $options)
     {
         if (array_key_exists('user', $dsn_parts)) {
             return $dsn_parts['user'];
@@ -199,7 +199,7 @@ class CouchClient extends Couch
         throw new Exception('Username not found.');
     }
 
-    private function getPassword($dsn_parts, $options)
+    private function _getPassword($dsn_parts, $options)
     {
         if (array_key_exists('pass', $dsn_parts)) {
             return $dsn_parts['pass'];
