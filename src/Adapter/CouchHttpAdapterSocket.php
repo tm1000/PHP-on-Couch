@@ -113,6 +113,12 @@ class CouchHttpAdapterSocket extends AbstractCouchHttpAdapter implements CouchHt
             case PHPONCOUCH_AUTH_COOKIE:
                 $req .= "Cookie: ".$this->getAuthToken()."\r\n";
                 break;
+            default:
+                $user = $this->dsnPart('user');
+                $pass = $this->dsnPart('pass');
+                if ($user && $pass) {
+                    $req .= "Authorization: Basic ".base64_encode("$user:$pass")."\r\n";
+                }
         }
         $req .= "Accept: application/json,text/html,text/plain,*/*\r\n";
 
