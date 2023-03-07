@@ -58,6 +58,11 @@ class Couch
     protected $options = null;
 
     /**
+     * @var \PHPOnCouch\Adapter\CouchHttpAdapterInterface
+     */
+    protected $adapter = null;
+
+    /**
      * class constructor
      *
      * @param string $dsn CouchDB Data Source Name
